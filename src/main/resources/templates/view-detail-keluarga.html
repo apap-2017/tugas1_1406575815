@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>View Keluarga by NKK</title>
+    </head>
+    <body>
+    	<h3 th:text="'Lihat Data Keluarga - ' + ${archive.nomor_kk}">Header</h3>
+       	<p th:text="'NKK = ' + ${archive.nomor_kk}">NKK Keluarga</p>
+       	<p th:text="'Alamat = ' + ${archive.alamat}">Alamat Keluarga</p>
+       	<p th:text="'RT/RW = ' + ${archive.rt} + '/' + ${archive.rw}">RT/RW Keluarga</p>
+       	<p th:text="'Kelurahan/Desa = ' + ${archive.kelurahan.nama_kelurahan}">Kelurahan Keluarga</p>
+       	<p th:text="'Kecamatan = ' + ${archive.kelurahan.kecamatan.nama_kecamatan}">Kecamatan Keluarga</p>
+       	<p th:text="'Kota = ' + ${archive.kelurahan.kecamatan.kota.nama_kota}">Kota Keluarga</p>
+       	
+       	<table>
+	       	<th>No.</th>
+	       	<th>Nama</th>
+	       	<th>NIK</th>
+	       	<th>Jenis Kelamin</th>
+	       	<th>Tempat Lahir</th>
+	       	<th>Tanggal Lahir</th>
+	       	<th>Agama</th>
+	       	<th>Pekerjaan</th>
+	       	<th>Status Perkawinan</th>
+	       	<th>Status Dalam Keluarga</th>
+	       	<th>Kewarganegaraan</th>
+	       	
+	       	<div th:each="penduduk,iterationStatus: ${archive.penduduk}">
+	       		<tr>
+		            <td th:text="${iterationStatus.count}">No</td>
+			       	<td th:text="${penduduk.nama}">Nama Penduduk</td>
+			       	<td th:text="${penduduk.nik}">NIK Penduduk</td>
+			       	<div th:switch="${penduduk.jenis_kelamin}"> 
+					  <td th:case="0" th:text="'Laki-laki'">Laki-laki</td>
+					  <td th:case="1" th:text="'Perempuan'">Perempuan</td>
+					</div>
+			       	<td th:text="${penduduk.tempat_lahir}">TTL Penduduk</td>
+			       	<td th:text="${penduduk.tanggal_lahir}">TTL Penduduk</td>
+			       	<td th:text="${penduduk.agama}">Agama Penduduk</td>
+			       	<td th:text="${penduduk.pekerjaan}">Pekerjaan Penduduk</td>
+			       	<td th:text="${penduduk.status_perkawinan}">Status Perkawinan Penduduk</td>
+			       	<td th:text="${penduduk.status_dalam_keluarga}">Status Penduduk Dalam Keluarga</td>
+			       	<div th:switch="${penduduk.is_wni}"> 
+					  <td th:case="true" th:text="'WNI'">WNI</td>
+					  <td th:case="false" th:text="'WNA'">WNA</td>
+					</div>
+		       	</tr>
+	       	</div>
+       	</table>
+    </body>
+</html>

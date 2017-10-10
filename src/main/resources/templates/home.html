@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Home Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+	<form action="/penduduk" method="get">
+		<div>
+			<h3>Lihat Data Penduduk Berdasarkan NIK</h3>
+			<label for="nik">Masukan Nomor Induk Kependudukan</label><br/>
+			<input type="text" name="nik"/>
+		</div>
+		<div>
+			<button type="submit">Lihat</button>
+		</div>
+	</form>
+
+	<form action="/keluarga" method="get">
+		<div>
+			<h3>Lihat Data Keluarga Berdasarkan NKK</h3>
+			<label for="nkk">Masukan Nomor Kartu Keluarga</label><br/>
+			<input type="text" name="nkk"/>
+		</div>
+		<div>
+			<button type="submit">Lihat</button>
+		</div>
+	</form>
+</body>
+
+</html>

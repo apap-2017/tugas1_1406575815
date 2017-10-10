@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Tambah Penduduk</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+	<h1 class="page-header">Problem Editor</h1>
+
+	<form action="/penduduk/tambah" method="post" th:object="${pendudukModel}">
+		<div>
+			<label for="nama">Masukan Nama</label><br/>
+			<input type="text" name="nama" th:field="*{nama}"/>
+			<label th:if="${#fields.hasErrors('nama')}" th:errors="*{nama}">Nama error</label>
+		</div>
+		<div>
+			<label for="tempat_lahir">Tempat Lahir</label><br/>
+			<input type="text" name="tempat_lahir" th:field="*{tempat_lahir}"/>
+			<label th:if="${#fields.hasErrors('tempat_lahir')}" th:errors="*{tempat_lahir}"></label>
+		</div>
+		<div>
+			<label for="tanggal_lahir">Tanggal Lahir</label><br/>
+			<input type="text" name="tanggal_lahir" th:field="*{tanggal_lahir}"/>
+			<label th:if="${#fields.hasErrors('tanggal_lahir')}" th:errors="*{tanggal_lahir}"></label>
+		</div>
+		<div>
+			<label for="jenis_kelamin">Jenis Kelamin</label><br/>
+			<select name="jenis_kelamin">
+				<option value="0">Laki-laki</option>
+				<option value="1">Perempuan</option>
+			</select>
+		</div>
+		<div>
+			<label for="golongan_darah">Golongan Darah</label><br/>
+			<select name="golongan_darah">
+				<option value="A">A</option>
+				<option value="B">B</option>
+				<option value="AB">AB</option>
+				<option value="O">O</option>
+			</select>
+		</div>
+		<div>
+			<label for="agama">Agama</label><br/>
+			<input type="text" name="agama" th:field="*{agama}"/>
+			<label th:if="${#fields.hasErrors('agama')}" th:errors="*{agama}"></label>
+		</div>
+		<div>
+			<label for="status_perkawinan">Status Perkawinan</label><br/>
+			<select name="status_perkawinan">
+				<option value="Kawin">Kawin</option>
+				<option value="Belum Kawin">Belum Kawin</option>
+			</select>
+		</div>
+		<div>
+			<label for="pekerjaan">Pekerjaan</label><br/>
+			<input type="text" name="pekerjaan" th:field="*{pekerjaan}"/>
+			<label th:if="${#fields.hasErrors('pekerjaan')}" th:errors="*{pekerjaan}"></label>
+		</div>
+		<div>
+			<label for="is_wni">Kewarganegaraan</label><br/>
+			<select name="is_wni">
+				<option value="1">WNI</option>
+				<option value="0">WNA</option>
+			</select>
+		</div>
+		<div>
+			<label for="is_wafat">Status Kematian</label><br/>
+			<select name="is_wafat">
+				<option value="0">Hidup</option>
+				<option value="1">Wafat</option>
+			</select>
+		</div>
+		<div>
+			<label for="id_keluarga">Id Keluarga</label><br/>
+			<input type="text" name="id_keluarga" th:field="*{id_keluarga}"/>
+			<label th:if="${#fields.hasErrors('id_keluarga')}" th:errors="*{id_keluarga}"></label>
+		</div>
+		<div>
+			<label for="status_dalam_keluarga">Status Dalam Keluarga</label><br/>
+			<input type="text" name="status_dalam_keluarga" th:field="*{status_dalam_keluarga}"/>
+			<label th:if="${#fields.hasErrors('status_dalam_keluarga')}" th:errors="*{status_dalam_keluarga}"></label>
+		</div>
+
+		<div>
+			<button type="submit" name="action" value="save">Save</button>
+		</div>
+	</form>
+
+</body>
+
+</html>
