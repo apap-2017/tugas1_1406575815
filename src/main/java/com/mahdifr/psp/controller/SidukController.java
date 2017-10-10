@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,14 +74,14 @@ public class SidukController {
 			 * construct nik dgn nomor urut terakhir
 			 */
 			KeluargaModel archive = sidukDAO.getDataKeluarga(String.valueOf(penduduk.getId_keluarga()));
-//			Date tanggalLahir = stringToDateDMY(penduduk.getTanggal_lahir());
 			String nik = constructNik(archive.getKelurahan().getKecamatan().getKode_kecamatan(),
 					constructTanggal(penduduk.getTanggal_lahir()), penduduk.getJenis_kelamin());
 			penduduk.setNik(nik);
 			penduduk.setTanggal_lahir(reFormatStringDMYtoYMD(penduduk.getTanggal_lahir()));
 			sidukDAO.insertPenduduk(penduduk);
-			model.addAttribute("nik", nik);
-			return "success-add-penduduk";
+			model.addAttribute("title", "Success Add Penduduk");
+			model.addAttribute("message", "Penduduk dengan NIK " + nik + " berhasil ditambahkan");
+			return "success-generic";
 		}
 	}
 	
@@ -100,11 +101,47 @@ public class SidukController {
 			Date currentDate = new Date();
 			String stringDate = constructTanggal(currentDate);
 			String nkk = constructNkk(archive.getKecamatan().getKode_kecamatan(), stringDate);
-			//Insert to DB
 			keluarga.setNomor_kk(nkk);
 			sidukDAO.insertKeluarga(keluarga);
-			model.addAttribute("nkk", nkk);
-			return "success-add-keluarga";
+			model.addAttribute("title", "Success Add Keluarga");
+			model.addAttribute("message", "Keluarga dengan NKK " + nkk + " berhasil ditambahkan");
+			return "success-generic";
+		}
+	}
+	
+	@RequestMapping(value="/penduduk/ubah/{nik}", method=RequestMethod.GET)
+	public String formUbahPenduduk(@PathVariable(value = "nik") String nik, Model model) {
+		// Select penduduk
+		PendudukModel penduduk = sidukDAO.getBottomUpPenduduk(nik);
+		penduduk.setTanggal_lahir(reFormatStringYMDtoDMY(penduduk.getTanggal_lahir()));
+		model.addAttribute("pendudukModel", penduduk);
+		return "form-update-penduduk";
+	}
+
+	@RequestMapping(value="/penduduk/ubah/{nik}", method=RequestMethod.POST)
+	public String ubahPenduduk(@PathVariable(value = "nik") String nik, @Valid PendudukModel penduduk, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()) {
+			return "form-update-penduduk";
+		} else {
+			PendudukModel oldPenduduk = sidukDAO.getBottomUpPenduduk(nik);
+			String newNik = "";
+			if(!penduduk.getTanggal_lahir().equals(reFormatStringYMDtoDMY(oldPenduduk.getTanggal_lahir())) || 
+					penduduk.getId_keluarga() != oldPenduduk.getId_keluarga()) {
+				// Construct new NIK
+				KeluargaModel archive = sidukDAO.getDataKeluarga(String.valueOf(penduduk.getId_keluarga()));
+				newNik = constructNik(archive.getKelurahan().getKecamatan().getKode_kecamatan(),
+						constructTanggal(penduduk.getTanggal_lahir()), penduduk.getJenis_kelamin());
+			} else {
+				newNik = nik;
+			}
+			// Update database
+			penduduk.setId(oldPenduduk.getId());
+			penduduk.setNik(newNik);
+			penduduk.setTanggal_lahir(reFormatStringDMYtoYMD(penduduk.getTanggal_lahir()));
+			sidukDAO.updatePenduduk(penduduk);
+			model.addAttribute("title", "Success Update Penduduk");
+			model.addAttribute("message", "Penduduk dengan NIK " + nik + " berhasil diubah");
+			return "success-generic";			
 		}
 	}
 	

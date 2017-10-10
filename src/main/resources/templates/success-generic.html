@@ -3,14 +3,14 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 
-<title>Success Add Keluarga</title>
+<title th:text="${title}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 
 <body>
 	<div>
 		<h3>Sukses!</h3>
-		<p th:text="'Keluarga dengan NKK ' + ${nkk} + ' berhasil ditambahkan'">Message</p>
+		<p th:text="${message}">Message</p>
 	</div>	
 </body>
 

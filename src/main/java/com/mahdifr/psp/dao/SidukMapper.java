@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.mahdifr.psp.model.KecamatanModel;
 import com.mahdifr.psp.model.KeluargaModel;
@@ -71,6 +72,7 @@ public interface SidukMapper {
 	@Select("SELECT * FROM penduduk WHERE nik=#{nik}")
 	@Results(value = {
     		@Result(property="id", column="id"),
+    		@Result(property="id_keluarga", column="id_keluarga"),
     		@Result(property="nik", column="nik"),
     		@Result(property="nama", column="nama"),
     		@Result(property="tempat_lahir", column="tempat_lahir"),
@@ -189,4 +191,14 @@ public interface SidukMapper {
 	/*
 	 * End of Dependency Dropdown Domisili
 	 */
+	
+	/*
+	 * Fitur 5
+	 */
+	@Update("UPDATE penduduk SET nik=#{nik}, nama=#{nama}, tempat_lahir=#{tempat_lahir}, "
+			+ "tanggal_lahir=#{tanggal_lahir}, jenis_kelamin=#{jenis_kelamin}, is_wni=#{is_wni}, "
+			+ "id_keluarga=#{id_keluarga}, agama=#{agama}, pekerjaan=#{pekerjaan}, status_perkawinan=#{status_perkawinan}, "
+			+ "status_dalam_keluarga=#{status_dalam_keluarga}, golongan_darah=#{golongan_darah}, is_wafat=#{is_wafat} "
+			+ "WHERE id=#{id}")
+	void updatePenduduk(PendudukModel penduduk);
 }

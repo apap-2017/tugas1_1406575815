@@ -35,4 +35,9 @@ public interface SidukService {
 	KelurahanModel getBottomUpKelurahan(String id);
 	String getLastUrutanKeluarga(String minNkk, String maxNkk);
 	void insertKeluarga(KeluargaModel keluarga);
+	
+	/*
+	 * Fitur 5
+	 */
+	void updatePenduduk(PendudukModel penduduk);
 }

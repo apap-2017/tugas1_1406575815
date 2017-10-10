@@ -85,4 +85,10 @@ public class SidukServiceDatabase implements SidukService {
 		log.info ("insert new keluarga {}", keluarga);
         sidukMapper.insertKeluarga(keluarga);
 	}
+
+	@Override
+	public void updatePenduduk(PendudukModel penduduk) {
+		log.info ("update penduduk {}", penduduk);
+        sidukMapper.updatePenduduk(penduduk);
+	}
 }
