@@ -7,12 +7,14 @@ $(document).ready(
 		            ajax : 'true'
 		        }, function(data) {
 		        	var htmlKecamatan = "<option disabled='true' selected='true'>Pilih Kecamatan</option>";
+		        	var htmlKelurahan = "<option disabled='true' selected='true'>Pilih Kelurahan</option>";
 		            var lenKecamatan = data.kecamatan.length;
 		            for (var i = 0; i < lenKecamatan; i++) {
 		                htmlKecamatan += '<option value="' + data.kecamatan[i].id + '">'
 		                        + data.kecamatan[i].nama_kecamatan + '</option>';
 		            }
 		            $("#kecamatan").html(htmlKecamatan);
+		            $("#kelurahan").html(htmlKelurahan);
 		        });
 		    }
 		);

@@ -91,4 +91,52 @@ public class SidukServiceDatabase implements SidukService {
 		log.info ("update penduduk {}", penduduk);
         sidukMapper.updatePenduduk(penduduk);
 	}
+
+	@Override
+	public KeluargaModel getBottomUpKeluarga(String nkk) {
+		log.info ("select keluarga with nkk {}", nkk);
+        return sidukMapper.selectDataKeluarga(nkk);
+	}
+
+	@Override
+	public List<KecamatanModel> getListKecamatan(String idKota) {
+		log.info ("get list kecamatan {}", idKota);
+        return sidukMapper.selectListKecamatan(idKota);
+	}
+
+	@Override
+	public List<KelurahanModel> getListKelurahan(String idKecamatan) {
+		log.info ("get list kelurahan {}", idKecamatan);
+        return sidukMapper.selectListKelurahan(idKecamatan);
+	}
+
+	@Override
+	public void updateKeluarga(KeluargaModel keluarga) {
+		log.info ("update keluarga {}", keluarga);
+        sidukMapper.updateKeluarga(keluarga);
+	}
+
+	@Override
+	public KecamatanModel getBottomUpKecamatan(String id) {
+		log.info ("get data kecamatan {}", id);
+        return sidukMapper.selectKecamatan(id);
+	}
+
+	@Override
+	public void setWafat(String nik) {
+		log.info ("set wafat penduduk dengan nik {}", nik);
+        sidukMapper.setWafat(nik);
+	}
+
+	@Override
+	public int countJumlahAnggotaKeluargaHidup(String nkk) {
+		log.info ("get jumlah anggota keluarga hidup {}", nkk);
+        return sidukMapper.countJumlahAnggotaKeluargaHidup(nkk);
+	}
+
+	@Override
+	public void setTidakBerlaku(String nkk) {
+		log.info ("set tidak berlaku nkk {}", nkk);
+        sidukMapper.setTidakBerlaku(nkk);
+	}
 }

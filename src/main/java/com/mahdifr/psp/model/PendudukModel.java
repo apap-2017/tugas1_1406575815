@@ -22,6 +22,7 @@ public class PendudukModel {
 	@Size(min=1, message = "Tidak Boleh Kosong")
 	private String nama, tempat_lahir, agama, pekerjaan, status_perkawinan, status_dalam_keluarga, golongan_darah;
 	
+	@NotNull(message = "Tidak Boleh Kosong")
 	@Pattern(regexp = "\\d{2}(-|\\/)\\d{2}(-|\\/)\\d{4}", message = "Format dd-MM-yyyy")
 	private String tanggal_lahir;
 	

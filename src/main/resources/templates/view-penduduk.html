@@ -22,8 +22,12 @@
 		  <p th:case="false" th:text="'Kewarganegaraan = WNA'">WNI</p>
 		</div>
        	<div th:switch="${archive.is_wafat}"> 
-		  <p th:case="true" th:text="'Status Kematian = Wafat'">Wafat</p>
-		  <p th:case="false" th:text="'Status Kematian = Hidup'">Hidup</p>
+		  <p th:case="true" th:text="'Status Kematian = Wafat'">Wafat</p> 
+		  <p th:case="false" th:text="'Status Kematian = Hidup'">Hidup</p> 
 		</div>
+		<form th:action="@{/penduduk/mati/}" method="post" th:object="${archive.nik}">
+			<input type="hidden" name="nik" th:value="${archive.nik}"/>
+			<button th:if="${!archive.is_wafat}" type="submit" name="action" value="update">Set Wafat</button>
+		</form>
     </body>
 </html>

@@ -1,6 +1,8 @@
 package com.mahdifr.psp.controller;
 
+
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +28,11 @@ import com.mahdifr.psp.service.SidukService;
 //@Slf4j
 @Controller
 public class SidukController {
+	private final List<String> GOLONGAN_DARAH = Arrays.asList("A-", "A+", "B-", "B+", "AB-", "AB+", "O-", "O+");
+	private final List<String> AGAMA = Arrays.asList("Islam", "Kristen", "Katholik", "Hindu", "Budha", "Konghucu");
+	private final List<String> STATUS_PERKAWINAN = Arrays.asList("Kawin", "Belum Kawin", "Cerai Mati", "Cerai Hidup");
+	private final List<String> STATUS_DALAM_KELUARGA = Arrays.asList("Kepala Keluarga", "Istri", "Anak", "Famili Lain", "Pembantu");
+	
 	@Autowired
 	private SidukService sidukDAO;
 	
@@ -130,6 +137,10 @@ public class SidukController {
 		PendudukModel penduduk = sidukDAO.getBottomUpPenduduk(nik);
 		penduduk.setTanggal_lahir(reFormatStringYMDtoDMY(penduduk.getTanggal_lahir()));
 		model.addAttribute("pendudukModel", penduduk);
+		model.addAttribute("golonganDarah", GOLONGAN_DARAH);
+		model.addAttribute("agama", AGAMA);
+		model.addAttribute("statusPerkawinan", STATUS_PERKAWINAN);
+		model.addAttribute("statusDalamKeluarga", STATUS_DALAM_KELUARGA);
 		return "form-update-penduduk";
 	}
 
@@ -153,7 +164,7 @@ public class SidukController {
 			penduduk.setId(oldPenduduk.getId());
 			penduduk.setNik(newNik);
 			penduduk.setTanggal_lahir(reFormatStringDMYtoYMD(penduduk.getTanggal_lahir()));
-			sidukDAO.updatePenduduk(penduduk);
+//			sidukDAO.updatePenduduk(penduduk);
 			model.addAttribute("title", "Success Update Penduduk");
 			model.addAttribute("message", "Penduduk dengan NIK " + nik + " berhasil diubah");
 			return "success-generic";		
@@ -163,11 +174,87 @@ public class SidukController {
 	/*
 	 * Fitur 6
 	 */
-//	@RequestMapping(value="/keluarga/ubah/{nkk}", method=RequestMethod.GET)
-//	public String formUbahKeluarga(@PathVariable(value="nkk") String nkk, Model model) {
-//		// Select keluarga
-//		KeluargaModel keluarga = sidukDAO.
-//		return "form-update-keluarga";
+	@RequestMapping(value="/keluarga/ubah/{nkk}", method=RequestMethod.GET)
+	public String formUbahKeluarga(@PathVariable(value="nkk") String nkk, Model model) {
+		// Select keluarga
+		KeluargaModel keluarga = sidukDAO.getBottomUpKeluarga(nkk);
+		List<KotaModel> listKota = sidukDAO.getListKota();
+		List<KecamatanModel> listKecamatan = sidukDAO.getListKecamatan(String.valueOf(keluarga.getKelurahan().getKecamatan().getKota().getId()));
+		List<KelurahanModel> listKelurahan = sidukDAO.getListKelurahan(String.valueOf(keluarga.getKelurahan().getKecamatan().getId()));
+		model.addAttribute("keluargaModel", keluarga);
+		model.addAttribute("kotaModel", listKota);
+		model.addAttribute("kecamatanModel", listKecamatan);
+		model.addAttribute("kelurahanModel", listKelurahan);
+		return "form-update-keluarga";
+	}
+	
+	@RequestMapping(value="/keluarga/ubah/{nkk}", method=RequestMethod.POST)
+	public String ubahKeluarga(@PathVariable(value="nkk") String nkk, @Valid KeluargaModel keluarga, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()) {
+			return "form-update-keluarga";			
+		} else {
+			//Construct new nkk
+			Date currentDate = new Date();
+			String stringDate = constructTanggal(currentDate);
+			KeluargaModel oldKeluarga = sidukDAO.getBottomUpKeluarga(nkk);
+			String newNkk = constructNkk(oldKeluarga.getKelurahan().getKecamatan().getKode_kecamatan(), stringDate);
+			keluarga.setId(oldKeluarga.getId());
+			keluarga.setNomor_kk(newNkk);
+			sidukDAO.updateKeluarga(keluarga);
+			model.addAttribute("title", "Success Update Keluarga");
+			model.addAttribute("message", "Keluarga dengan NKK " + nkk + " berhasil diubah");
+			return "success-generic";
+		}
+	}
+	
+	/*
+	 * Fitur 7
+	 * Pagenya apa masih belom clear
+	 */
+	@RequestMapping(value="/penduduk/{nik}", method=RequestMethod.POST)
+	public String responseUbahStatusKematian(@PathVariable(value="nik") String nik) {
+		return null;
+	}
+	
+	@RequestMapping(value="/penduduk/mati", method=RequestMethod.POST)
+	public String ubahStatusKematian(@RequestParam(value="nik") String nik) {
+		sidukDAO.setWafat(nik);
+		// Check anggota keluarga
+		PendudukModel penduduk = sidukDAO.getBottomUpPenduduk(nik);
+		int countHidup = sidukDAO.countJumlahAnggotaKeluargaHidup(penduduk.getKeluarga().getNomor_kk());
+		if(countHidup == 0) {
+			sidukDAO.setTidakBerlaku(penduduk.getKeluarga().getNomor_kk());
+		}
+		return "redirect:/penduduk?nik=" + nik;
+	}
+	
+	/*
+	 * Fitur 8
+	 */
+	@RequestMapping(value="/penduduk/cari", method=RequestMethod.GET)
+	public String cariPendudukInit(Model model) {
+		List<KotaModel> listKota = sidukDAO.getListKota();
+		model.addAttribute("kotaModel", listKota);
+		return "form-cari-penduduk";
+	}
+	
+//	@RequestMapping(value="/penduduk/cari", method=RequestMethod.GET)
+//	public String cariPenduduk(Model model,
+//			@RequestParam(value="kt") String kt,
+//			@RequestParam(value="kc") Optional<String> kc,
+//			@RequestParam(value="kl") Optional<String> kl) {
+//		if(kl.isPresent()) {
+//			// get data penduduk
+//			return null;
+//		} else if (kc.isPresent()) {
+//			KecamatanModel listKelurahan = sidukDAO.getTopDownKecamatan(kc.get());
+//			model.addAttribute("listKelurahan", listKelurahan);
+//			return null;
+//		} else {
+//			KotaModel listKecamatan = sidukDAO.getTopDownKota(kt);
+//			model.addAttribute("listKecamatan", listKecamatan);
+//			return null;
+//		}
 //	}
 	
 	/*
@@ -181,7 +268,7 @@ public class SidukController {
 			newTanggal = tanggal;
 		}
 		String minNik = kodeDaerah.substring(0, 6) + newTanggal.substring(0, 4) + newTanggal.substring(newTanggal.length()-2, newTanggal.length()) + "0001";
-		String maxNik = String.valueOf(Long.parseLong(minNik)+999);
+		String maxNik = String.valueOf(Long.parseLong(minNik)+9999);
 		String lastNoUrutNik = sidukDAO.getLastUrutanPenduduk(minNik, maxNik);
 		if(lastNoUrutNik == null) {
 			return minNik;
@@ -192,7 +279,7 @@ public class SidukController {
 	
 	private String constructNkk(String kodeDaerah, String tanggal) {
 		String minNkk = kodeDaerah.substring(0, 6) + tanggal.substring(0, 4) + tanggal.substring(tanggal.length()-2, tanggal.length()) + "0001";
-		String maxNkk = String.valueOf(Long.parseLong(minNkk)+999);
+		String maxNkk = String.valueOf(Long.parseLong(minNkk)+9999);
 		String lastNoUrutNkk = sidukDAO.getLastUrutanKeluarga(minNkk, maxNkk);
 		if(lastNoUrutNkk == null) {
 			return minNkk;

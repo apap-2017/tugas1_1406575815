@@ -20,7 +20,9 @@ public class KeluargaModel {
 	@Size(min=1, message = "Tidak Boleh Kosong")
 	private String alamat, rt, rw;
 	
+	@NotNull(message = "Tidak Boleh Kosong")
 	private boolean is_tidak_berlaku;
+	
 	private List<PendudukModel> penduduk;
 	private KelurahanModel kelurahan;
 	

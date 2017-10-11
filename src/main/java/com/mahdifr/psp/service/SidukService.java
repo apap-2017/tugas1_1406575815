@@ -40,4 +40,20 @@ public interface SidukService {
 	 * Fitur 5
 	 */
 	void updatePenduduk(PendudukModel penduduk);
+	
+	/*
+	 * Fitur 6
+	 */
+	KeluargaModel getBottomUpKeluarga(String nkk);
+	List<KecamatanModel> getListKecamatan(String idKota);
+	List<KelurahanModel> getListKelurahan(String idKecamatan);
+	void updateKeluarga(KeluargaModel keluarga);
+	KecamatanModel getBottomUpKecamatan(String id);
+	
+	/*
+	 * Fitur 7
+	 */
+	void setWafat(String nik);
+	int countJumlahAnggotaKeluargaHidup(String nkk);
+	void setTidakBerlaku(String nkk);
 }

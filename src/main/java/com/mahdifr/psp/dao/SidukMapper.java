@@ -147,6 +147,7 @@ public interface SidukMapper {
 	
 	/*
 	 * Dependency Dropdown Domisili
+	 * Top -> Down : Kota-Kelurahan
 	 */
 	@Select("SELECT * FROM kota")
 	List<KotaModel> selectListKota();
@@ -201,4 +202,44 @@ public interface SidukMapper {
 			+ "status_dalam_keluarga=#{status_dalam_keluarga}, golongan_darah=#{golongan_darah}, is_wafat=#{is_wafat} "
 			+ "WHERE id=#{id}")
 	void updatePenduduk(PendudukModel penduduk);
+	
+	/*
+	 * Fitur 6
+	 */
+	@Select("SELECT * FROM keluarga WHERE nomor_kk=#{nkk}")
+	@Results(value = {
+    		@Result(property="id", column="id"),
+    		@Result(property="nomor_kk", column="nomor_kk"),
+    		@Result(property="alamat", column="alamat"),
+    		@Result(property="rt", column="rt"),
+    		@Result(property="rw", column="rw"),
+    		@Result(property="is_tidak_berlaku", column="is_tidak_berlaku"),
+    		@Result(property="kelurahan", column="id_kelurahan",
+    		javaType = KelurahanModel.class,
+    		many=@Many(select="selectKelurahan"))
+    		})
+	KeluargaModel selectDataKeluarga(@Param("nkk") String nkk);
+	
+	@Select("SELECT * FROM kecamatan WHERE id_kota=#{idKota}")
+	List<KecamatanModel> getListKecamatan(@Param("idKota") String idKota);
+	
+	@Select("SELECT * FROM kelurahan WHERE id_kecamatan=#{idKecamatan}")
+	List<KelurahanModel> getListKelurahan(@Param("idKecamatan") String idKecamatan);
+	
+	@Update("UPDATE keluarga SET nomor_kk=#{nomor_kk}, alamat=#{alamat}, rt=#{rw}, "
+			+ "rw=#{rw}, id_kelurahan=#{id_kelurahan} WHERE id=#{id}")
+	void updateKeluarga(KeluargaModel keluarga);
+	
+	/*
+	 * Fitur 7
+	 */
+	@Update("UPDATE penduduk SET is_wafat=1 WHERE nik=#{nik}")
+	void setWafat(@Param("nik") String nik);
+	
+	@Select("SELECT count(is_wafat) FROM keluarga JOIN penduduk "
+			+ "ON (keluarga.id=penduduk.id_keluarga) WHERE keluarga.nomor_kk=#{nkk} AND penduduk.is_wafat=0")
+	int countJumlahAnggotaKeluargaHidup(@Param("nkk") String nkk);
+	
+	@Update("UPDATE keluarga SET is_tidak_berlaku=1 WHERE nomor_kk=#{nkk}")
+	void setTidakBerlaku(@Param("nkk") String nkk);
 }

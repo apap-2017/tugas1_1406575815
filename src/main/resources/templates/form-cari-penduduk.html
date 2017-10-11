@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+
+	<title>Cari Penduduk</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/dependency-dropdown.js"></script>
+</head>
+
+<body>
+	<h3>Cari Penduduk</h3>
+	<form action="/penduduk/cari" method="get">
+		<div>
+			<label for="kota">Kota</label><br/>
+			<select name="kt" id="kota">
+				<option disabled="true" selected="true">Pilih Kota</option>
+				<option th:each="kota : ${kotaModel}" th:value="${kota.id}"
+				th:text="${kota.nama_kota}"></option>
+			</select>
+		</div>
+		<div>
+			<label for="kecamatan">Kecamatan</label><br/>
+			<select name="kc" id="kecamatan">
+				<option disabled="true" selected="true">Pilih Kecamatan</option>
+			</select>
+		</div>
+		<div>
+			<label for="kelurahan">Kelurahan/Desa</label><br/>
+			<select name="kl" id="kelurahan">
+				<option disabled="true" selected="true">Pilih Kelurahan</option>
+			</select>
+		</div>
+
+		<div>
+			<button type="submit">Cari</button>
+		</div>
+	</form>
+
+</body>
+
+</html>
