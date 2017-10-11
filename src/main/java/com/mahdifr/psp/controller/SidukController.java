@@ -34,6 +34,9 @@ public class SidukController {
 		return "home";
 	}
 	
+	/*
+	 * Fitur 1
+	 */
 	@RequestMapping(value="/penduduk", method=RequestMethod.GET)
 	public String selectPenduduk(@RequestParam(value="nik", required=true) String nik, Model model) {
 		PendudukModel archive = sidukDAO.getBottomUpPenduduk(nik);
@@ -46,6 +49,9 @@ public class SidukController {
 		}
 	}
 	
+	/*
+	 * Fitur 2
+	 */
 	@RequestMapping(value="/keluarga", method=RequestMethod.GET)
 	public String selectKeluarga(@RequestParam(value="nkk", required=true) String nkk, Model model) {
 		KeluargaModel archive = sidukDAO.getTopDownKeluarga(nkk);
@@ -57,6 +63,9 @@ public class SidukController {
 		}
 	}
 	
+	/*
+	 * Fitur 3
+	 */
 	@RequestMapping(value="/penduduk/tambah", method=RequestMethod.GET)
 	public String formPenduduk(PendudukModel penduduk, Model model) {
 		return "form-add-penduduk";
@@ -85,6 +94,9 @@ public class SidukController {
 		}
 	}
 	
+	/*
+	 * Fitur 4
+	 */
 	@RequestMapping(value="/keluarga/tambah", method=RequestMethod.GET)
 	public String formKeluarga(KeluargaModel keluarga, Model model) {
 		List<KotaModel> listKota = sidukDAO.getListKota();
@@ -109,6 +121,9 @@ public class SidukController {
 		}
 	}
 	
+	/*
+	 * Fitur 5
+	 */
 	@RequestMapping(value="/penduduk/ubah/{nik}", method=RequestMethod.GET)
 	public String formUbahPenduduk(@PathVariable(value = "nik") String nik, Model model) {
 		// Select penduduk
@@ -141,9 +156,19 @@ public class SidukController {
 			sidukDAO.updatePenduduk(penduduk);
 			model.addAttribute("title", "Success Update Penduduk");
 			model.addAttribute("message", "Penduduk dengan NIK " + nik + " berhasil diubah");
-			return "success-generic";			
+			return "success-generic";		
 		}
 	}
+	
+	/*
+	 * Fitur 6
+	 */
+//	@RequestMapping(value="/keluarga/ubah/{nkk}", method=RequestMethod.GET)
+//	public String formUbahKeluarga(@PathVariable(value="nkk") String nkk, Model model) {
+//		// Select keluarga
+//		KeluargaModel keluarga = sidukDAO.
+//		return "form-update-keluarga";
+//	}
 	
 	/*
 	 * Helper Method
@@ -156,7 +181,7 @@ public class SidukController {
 			newTanggal = tanggal;
 		}
 		String minNik = kodeDaerah.substring(0, 6) + newTanggal.substring(0, 4) + newTanggal.substring(newTanggal.length()-2, newTanggal.length()) + "0001";
-		String maxNik = String.valueOf(Long.parseLong(minNik)+1000);
+		String maxNik = String.valueOf(Long.parseLong(minNik)+999);
 		String lastNoUrutNik = sidukDAO.getLastUrutanPenduduk(minNik, maxNik);
 		if(lastNoUrutNik == null) {
 			return minNik;
@@ -167,7 +192,7 @@ public class SidukController {
 	
 	private String constructNkk(String kodeDaerah, String tanggal) {
 		String minNkk = kodeDaerah.substring(0, 6) + tanggal.substring(0, 4) + tanggal.substring(tanggal.length()-2, tanggal.length()) + "0001";
-		String maxNkk = String.valueOf(Long.parseLong(minNkk)+1000);
+		String maxNkk = String.valueOf(Long.parseLong(minNkk)+999);
 		String lastNoUrutNkk = sidukDAO.getLastUrutanKeluarga(minNkk, maxNkk);
 		if(lastNoUrutNkk == null) {
 			return minNkk;

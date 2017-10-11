@@ -30,6 +30,7 @@
 		<div>
 			<label for="kota">Kota</label><br/>
 			<select name="kelurahan.kecamatan.id_kota" id="kota">
+				<option disabled="true" selected="true">Pilih Kota</option>
 				<option th:each="kota : ${kotaModel}" th:value="${kota.id}"
 				th:text="${kota.nama_kota}"></option>
 			</select>
@@ -37,13 +38,13 @@
 		<div>
 			<label for="kecamatan">Kecamatan</label><br/>
 			<select name="kelurahan.id_kecamatan" id="kecamatan">
-				<option disabled="true">Pilih Kecamatan</option>
+				<option disabled="true" selected="true">Pilih Kecamatan</option>
 			</select>
 		</div>
 		<div>
 			<label for="kelurahan">Kelurahan/Desa</label><br/>
 			<select name="id_kelurahan" id="kelurahan">
-				<option disabled="true">Pilih Kelurahan</option>
+				<option disabled="true" selected="true">Pilih Kelurahan</option>
 			</select>
 		</div>
 

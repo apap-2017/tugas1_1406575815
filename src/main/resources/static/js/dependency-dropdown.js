@@ -6,7 +6,7 @@ $(document).ready(
 		            id_kota : $(this).val(),
 		            ajax : 'true'
 		        }, function(data) {
-		        	var htmlKecamatan = "";
+		        	var htmlKecamatan = "<option disabled='true' selected='true'>Pilih Kecamatan</option>";
 		            var lenKecamatan = data.kecamatan.length;
 		            for (var i = 0; i < lenKecamatan; i++) {
 		                htmlKecamatan += '<option value="' + data.kecamatan[i].id + '">'
@@ -22,7 +22,7 @@ $(document).ready(
 		            id_kecamatan : $(this).val(),
 		            ajax : 'true'
 		        }, function(data) {
-		        	var htmlKelurahan = "";
+		        	var htmlKelurahan = "<option disabled='true' selected='true'>Pilih Kelurahan</option>";
 		            var lenKelurahan = data.kelurahan.length;
 		            for (var i = 0; i < lenKelurahan; i++) {
 		                htmlKelurahan += '<option value="' + data.kelurahan[i].id + '">'
