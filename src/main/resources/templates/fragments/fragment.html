@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Index</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+	</head>
+<body>
+	<nav th:fragment="navbar(flag)" class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">SIDUK</a>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li th:class="${flag} == 'home' ? 'active nav-item' : 'nav-item'">
+					<a class="nav-link" th:href="@{/}">Home</a>
+				</li>
+				<li th:class="${flag} == 'addPenduduk' ? 'active nav-item' : 'nav-item'">
+					<a class="nav-link" th:href="@{/penduduk/tambah}">Add Penduduk</a>
+				</li>
+				<li th:class="${flag} == 'addKeluarga' ? 'active nav-item' : 'nav-item'">
+					<a class="nav-link" th:href="@{/keluarga/tambah}">Add Keluarga</a>
+				</li>
+				<li th:class="${flag} == 'cariPenduduk' ? 'active nav-item' : 'nav-item'">
+					<a class="nav-link" th:href="@{/penduduk/cari}">Search Penduduk</a>
+				</li>
+				<!--
+				Dropdownnya gabisa kocak 
+				<li class="dropdown">
+					<a class="nav-link" data-toggle="dropdown" href="#">Penduduk</a>
+					<ul class="dropdown-menu">
+			          <li class="nav-item"><a href="#">Page 1-1</a></li>
+			          <li class="nav-item"><a href="#">Page 1-2</a></li>
+			          <li class="nav-item"><a href="#">Page 1-3</a></li>
+			        </ul>
+				</li>
+				 -->
+			</ul>
+			<form class="form-inline my-2 my-lg-0">
+				<input class="form-control mr-sm-2" type="text" placeholder="Search"
+					aria-label="Search" />
+				<button disabled="disabled" class="btn btn-outline-success my-2 my-sm-0">
+					Search</button>
+			</form>
+		</div>
+	</nav>
+</body>
+</html>

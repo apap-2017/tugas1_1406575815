@@ -1,51 +1,66 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
+	
 <head>
-
 	<title>Tambah Keluarga</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/dependency-dropdown.js"></script>
 </head>
 
 <body>
+	<nav th:replace="fragments/fragment :: navbar('addKeluarga')"></nav>
 	<h3>Tambah Keluarga</h3>
-	<form action="/keluarga/tambah" method="post" th:object="${keluargaModel}">
+	<form action="/keluarga/tambah" method="post"
+		th:object="${keluargaModel}">
 		<div>
-			<label for="alamat">Alamat</label><br/>
-			<input type="text" name="alamat" th:field="*{alamat}"/>
+			<label for="alamat">Alamat</label><br /> 
+			<input type="text"
+				name="alamat" th:field="*{alamat}" /> 
 			<label th:if="${#fields.hasErrors('alamat')}" th:errors="*{alamat}">Alamat error</label>
 		</div>
 		<div>
-			<label for="rt">RT</label><br/>
-			<input type="text" name="rt" th:field="*{rt}"/>
-			<label th:if="${#fields.hasErrors('rt')}" th:errors="*{rt}"></label>
+			<label for="rt">RT</label><br /> 
+			<input type="text" name="rt" th:field="*{rt}" /> <label th:if="${#fields.hasErrors('rt')}" th:errors="*{rt}"></label>
 		</div>
 		<div>
-			<label for="rw">RW</label><br/>
-			<input type="text" name="rw" th:field="*{rw}"/>
-			<label th:if="${#fields.hasErrors('rw')}" th:errors="*{rw}"></label>
+			<label for="rw">RW</label><br /> 
+			<input type="text" name="rw" th:field="*{rw}" /> <label th:if="${#fields.hasErrors('rw')}" th:errors="*{rw}"></label>
 		</div>
 		<div>
-			<label for="kota">Kota</label><br/>
+			<label for="kota">Kota</label><br /> 
 			<select name="kelurahan.kecamatan.id_kota" id="kota">
-				<option disabled="true" selected="true">Pilih Kota</option>
-				<option th:each="kota : ${kotaModel}" th:value="${kota.id}"
-				th:text="${kota.nama_kota}"></option>
+				<option disabled="disabled" selected="selected">Pilih Kota</option>
+				<div th:each="kota : ${kotaModel}">
+					<option th:value="${kota.id}"
+					th:text="${kota.nama_kota}"></option>					
+				</div>
 			</select>
+			<label th:text="${errorRequired}">Kota error</label>
 		</div>
 		<div>
-			<label for="kecamatan">Kecamatan</label><br/>
+			<label for="kecamatan">Kecamatan</label><br /> 
 			<select name="kelurahan.id_kecamatan" id="kecamatan">
-				<option disabled="true" selected="true">Pilih Kecamatan</option>
+				<option disabled="disabled" selected="selected" value="">Pilih Kecamatan</option>
+				<div th:each="kecamatan : ${kecamatanModel}">
+					<option th:value="${kecamatan.id}"
+					th:text="${kecamatan.nama_kecamatan}"></option>					
+				</div>
 			</select>
+			<label th:text="${errorRequired}">Kecamatan error</label>
 		</div>
 		<div>
-			<label for="kelurahan">Kelurahan/Desa</label><br/>
+			<label for="kelurahan">Kelurahan/Desa</label><br /> 
 			<select name="id_kelurahan" id="kelurahan">
-				<option disabled="true" selected="true">Pilih Kelurahan</option>
+				<option disabled="disabled" selected="selected" value="">Pilih Kelurahan</option>
+				<div th:each="kelurahan : ${kelurahanModel}">
+					<option th:value="${kelurahan.id}" 
+					th:text="${kelurahan.nama_kelurahan}"></option>
+				</div>
 			</select>
+			<label th:text="${errorRequired}">Kelurahan error</label>
 		</div>
 
 		<div>

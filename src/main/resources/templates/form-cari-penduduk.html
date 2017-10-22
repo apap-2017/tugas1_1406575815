@@ -5,32 +5,50 @@
 
 	<title>Cari Penduduk</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/dependency-dropdown.js"></script>
 </head>
 
 <body>
+	<nav th:replace="fragments/fragment :: navbar('cariPenduduk')"></nav>
 	<h3>Cari Penduduk</h3>
 	<form action="/penduduk/cari" method="get">
 		<div>
 			<label for="kota">Kota</label><br/>
 			<select name="kt" id="kota">
-				<option disabled="true" selected="true">Pilih Kota</option>
-				<option th:each="kota : ${kotaModel}" th:value="${kota.id}"
-				th:text="${kota.nama_kota}"></option>
+				<option disabled="disabled" selected="selected" value="">Pilih Kota</option>
+				<div th:each="kota : ${kotaModel}">
+					<option th:value="${kota.id}"
+					th:text="${kota.nama_kota}" th:if="${kota.id} == ${selectedKota}" selected="selected"></option>					
+					<option th:value="${kota.id}"
+					th:text="${kota.nama_kota}" th:if="${kota.id} != ${selectedKota}"></option>
+				</div>
 			</select>
+			<label th:text="${errorKota}">Kota error</label>
 		</div>
 		<div>
 			<label for="kecamatan">Kecamatan</label><br/>
 			<select name="kc" id="kecamatan">
-				<option disabled="true" selected="true">Pilih Kecamatan</option>
+				<option disabled="disabled" selected="selected" value="">Pilih Kecamatan</option>
+				<div th:each="kecamatan : ${kecamatanModel}">
+					<option th:value="${kecamatan.id}"
+					th:text="${kecamatan.nama_kecamatan}" th:if="${kecamatan.id} == ${selectedKecamatan}" selected="selected"></option>					
+					<option th:value="${kecamatan.id}"
+					th:text="${kecamatan.nama_kecamatan}" th:if="${kecamatan.id} != ${selectedKecamatan}"></option>
+				</div>
 			</select>
+			<label th:text="${errorKecamatan}">Kecamatan error</label>
 		</div>
 		<div>
 			<label for="kelurahan">Kelurahan/Desa</label><br/>
 			<select name="kl" id="kelurahan">
-				<option disabled="true" selected="true">Pilih Kelurahan</option>
+				<option disabled="disabled" selected="selected" value="">Pilih Kelurahan</option>
+				<div th:each="kelurahan : ${kelurahanModel}">
+					<option th:value="${kelurahan.id}" th:text="${kelurahan.nama_kelurahan}"></option>
+				</div>
 			</select>
+			<label th:text="${errorKelurahan}">Kelurahan error</label>
 		</div>
 
 		<div>

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KelurahanModel {
-	private int id, id_kecamatan;
+	private Integer id, id_kecamatan;
 	private String kode_kelurahan, nama_kelurahan, kode_pos;
 	private List<KeluargaModel> keluarga;
 	private KecamatanModel kecamatan;

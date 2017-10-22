@@ -5,11 +5,13 @@
 
 	<title>Update Keluarga</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/dependency-dropdown.js"></script>
 </head>
 
 <body>
+	<nav th:replace="fragments/fragment :: navbar('')"></nav>
 	<h3>Ubah Keluarga</h3>
 	<form th:action="@{/keluarga/ubah/__${keluargaModel.nomor_kk}__}" method="post" th:object="${keluargaModel}">
 		<div>
@@ -30,38 +32,41 @@
 		<div>
 			<label for="kota">Kota</label><br/>
 			<select name="kelurahan.kecamatan.id_kota" id="kota">
-				<option disabled="true">Pilih Kota</option>
+				<option disabled="disabled">Pilih Kota</option>
 				<div th:each="kota : ${kotaModel}">
 					<option th:value="${kota.id}"
-					th:text="${kota.nama_kota}" th:if="${kota.id == keluargaModel.kelurahan.kecamatan.kota.id}" selected="true"></option>					
+					th:text="${kota.nama_kota}" th:if="${kota.id == keluargaModel.kelurahan.kecamatan.kota.id}" selected="selected"></option>					
 					<option th:value="${kota.id}"
 					th:text="${kota.nama_kota}" th:if="${kota.id != keluargaModel.kelurahan.kecamatan.kota.id}"></option>
 				</div>
 			</select>
+			<label th:text="${errorRequired}">Kota error</label>
 		</div>
 		<div>
 			<label for="kecamatan">Kecamatan</label><br/>
 			<select name="kelurahan.id_kecamatan" id="kecamatan">
-				<option disabled="true"	>Pilih Kecamatan</option>
+				<option disabled="disabled"	>Pilih Kecamatan</option>
 				<div th:each="kecamatan : ${kecamatanModel}">
 					<option th:value="${kecamatan.id}"
-					th:text="${kecamatan.nama_kecamatan}" th:if="${kecamatan.id == keluargaModel.kelurahan.kecamatan.id}" selected="true"></option>					
+					th:text="${kecamatan.nama_kecamatan}" th:if="${kecamatan.id == keluargaModel.kelurahan.kecamatan.id}" selected="selected"></option>					
 					<option th:value="${kecamatan.id}"
 					th:text="${kecamatan.nama_kecamatan}" th:if="${kecamatan.id != keluargaModel.kelurahan.kecamatan.id}"></option>
 				</div>
 			</select>
+			<label th:text="${errorRequired}">Kecamatan error</label>
 		</div>
 		<div>
 			<label for="kelurahan">Kelurahan/Desa</label><br/>
 			<select name="id_kelurahan" id="kelurahan">
-				<option disabled="true">Pilih Kelurahan</option>
+				<option disabled="disabled">Pilih Kelurahan</option>
 				<div th:each="kelurahan : ${kelurahanModel}">
 					<option th:value="${kelurahan.id}"
-					th:text="${kelurahan.nama_kelurahan}" th:if="${kelurahan.id == keluargaModel.kelurahan.id}" selected="true"></option>					
+					th:text="${kelurahan.nama_kelurahan}" th:if="${kelurahan.id == keluargaModel.kelurahan.id}" selected="selected"></option>					
 					<option th:value="${kelurahan.id}"
 					th:text="${kelurahan.nama_kelurahan}" th:if="${kelurahan.id != keluargaModel.kelurahan.id}"></option>
 				</div>
 			</select>
+			<label th:text="${errorRequired}">Kelurahan error</label>
 		</div>
 
 		<div>

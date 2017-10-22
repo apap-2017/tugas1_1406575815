@@ -2,8 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>View Penduduk by NIK</title>
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
     </head>
     <body>
+	    <nav th:replace="fragments/fragment :: navbar('')"></nav>
     	<h3 th:text="'Lihat Data Penduduk - ' + ${archive.nik}">Header</h3>
        	<p th:text="'NIK = ' + ${archive.nik}">NIK Penduduk</p>
        	<p th:text="'Nama = ' + ${archive.nama}">Nama Penduduk</p>

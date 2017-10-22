@@ -2,17 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-
-<title>Home Page</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Home Page</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 
 <body>
+	<nav th:replace="fragments/fragment :: navbar('home')"></nav>
 	<form action="/penduduk" method="get">
 		<div>
 			<h3>Lihat Data Penduduk Berdasarkan NIK</h3>
 			<label for="nik">Masukan Nomor Induk Kependudukan</label><br/>
 			<input type="text" name="nik"/>
+			<label th:text="${errorNik}"></label>
 		</div>
 		<div>
 			<button type="submit">Lihat</button>
@@ -24,6 +25,7 @@
 			<h3>Lihat Data Keluarga Berdasarkan NKK</h3>
 			<label for="nkk">Masukan Nomor Kartu Keluarga</label><br/>
 			<input type="text" name="nkk"/>
+			<label th:text="${errorNkk}"></label>
 		</div>
 		<div>
 			<button type="submit">Lihat</button>

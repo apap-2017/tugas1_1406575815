@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-
-<title>Update Penduduk</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Update Penduduk</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 
 <body>
+	<nav th:replace="fragments/fragment :: navbar('')"></nav>
 	<form th:action="@{/penduduk/ubah/__${pendudukModel.nik}__}" method="post" th:object="${pendudukModel}">
 		<div>
 			<label for="nama">Masukan Nama</label><br/>
@@ -27,9 +28,9 @@
 		<div>
 			<label for="jenis_kelamin">Jenis Kelamin</label><br/>
 			<select name="jenis_kelamin">
-				<option value="0" th:if="${0 == pendudukModel.jenis_kelamin}" selected="true">Laki-laki</option>
+				<option value="0" th:if="${0 == pendudukModel.jenis_kelamin}" selected="selected">Laki-laki</option>
 				<option value="0" th:if="${0 != pendudukModel.jenis_kelamin}">Laki-laki</option>
-				<option value="1" th:if="${1 == pendudukModel.jenis_kelamin}" selected="true">Perempuan</option>
+				<option value="1" th:if="${1 == pendudukModel.jenis_kelamin}" selected="selected">Perempuan</option>
 				<option value="0" th:if="${1 != pendudukModel.jenis_kelamin}">Perempuan</option>
 			</select>
 		</div>
@@ -37,7 +38,7 @@
 			<label for="golongan_darah">Golongan Darah</label><br/>
 			<select name="golongan_darah">
 				<div th:each="data : ${golonganDarah}">
-					<option th:value="${data}" th:text="${data}" th:if="${data == pendudukModel.golongan_darah}" selected="true"></option>					
+					<option th:value="${data}" th:text="${data}" th:if="${data == pendudukModel.golongan_darah}" selected="selected"></option>					
 					<option th:value="${data}" th:text="${data}" th:if="${data != pendudukModel.golongan_darah}"></option>
 				</div>
 			</select>
@@ -46,7 +47,7 @@
 			<label for="agama">Agama</label><br/>
 			<select name="agama">
 				<div th:each="data : ${agama}">
-					<option th:value="${data}" th:text="${data}" th:if="${data == pendudukModel.agama}" selected="true"></option>					
+					<option th:value="${data}" th:text="${data}" th:if="${data == pendudukModel.agama}" selected="selected"></option>					
 					<option th:value="${data}" th:text="${data}" th:if="${data != pendudukModel.agama}"></option>
 				</div>
 			</select>
@@ -55,7 +56,7 @@
 			<label for="status_perkawinan">Status Perkawinan</label><br/>
 			<select name="status_perkawinan">
 				<div th:each="data : ${statusPerkawinan}">
-					<option th:value="${data}" th:text="${data}" th:if="${data == pendudukModel.status_perkawinan}" selected="true"></option>					
+					<option th:value="${data}" th:text="${data}" th:if="${data == pendudukModel.status_perkawinan}" selected="selected"></option>					
 					<option th:value="${data}" th:text="${data}" th:if="${data != pendudukModel.status_perkawinan}"></option>
 				</div>
 			</select>
@@ -68,22 +69,22 @@
 		<div>
 			<label for="is_wni">Kewarganegaraan</label><br/>
 			<select name="is_wni">
-				<option value="1" th:if="${pendudukModel.is_wni}" selected="true">WNI</option>
+				<option value="1" th:if="${pendudukModel.is_wni}" selected="selected">WNI</option>
 				<option value="1" th:if="${!pendudukModel.is_wni}">WNI</option>
-				<option value="0" th:if="${!pendudukModel.is_wni}" selected="true">WNA</option>
+				<option value="0" th:if="${!pendudukModel.is_wni}" selected="selected">WNA</option>
 				<option value="0" th:if="${pendudukModel.is_wni}">WNA</option>
 			</select>
 		</div>
 		<div>
 			<label for="id_keluarga">Id Keluarga</label><br/>
 			<input type="text" name="id_keluarga" th:field="${pendudukModel.id_keluarga}"/>
-			<label th:if="${#fields.hasErrors('id_keluarga')}" th:errors="*{id_keluarga}"></label>
+			<label th:text="${errorIdKeluarga}"></label>
 		</div>
 		<div>
 			<label for="status_dalam_keluarga">Status Dalam Keluarga</label><br/>
 			<select name="status_dalam_keluarga">
 				<div th:each="data : ${statusDalamKeluarga}">
-					<option th:value="${data}" th:text="${data}" th:if="${data == pendudukModel.status_dalam_keluarga}" selected="true"></option>					
+					<option th:value="${data}" th:text="${data}" th:if="${data == pendudukModel.status_dalam_keluarga}" selected="selected"></option>					
 					<option th:value="${data}" th:text="${data}" th:if="${data != pendudukModel.status_dalam_keluarga}"></option>
 				</div>
 			</select>

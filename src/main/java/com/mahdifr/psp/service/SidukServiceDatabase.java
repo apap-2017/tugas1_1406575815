@@ -139,4 +139,28 @@ public class SidukServiceDatabase implements SidukService {
 		log.info ("set tidak berlaku nkk {}", nkk);
         sidukMapper.setTidakBerlaku(nkk);
 	}
+
+	@Override
+	public PendudukModel getPenduduk(String nik) {
+		log.info ("get penduduk nik {}", nik);
+        return sidukMapper.getPenduduk(nik);
+	}
+
+	@Override
+	public List<PendudukModel> getListPendudukDaerah(String idKelurahan) {
+		log.info ("get list penduduk pada kel {}", idKelurahan);
+        return sidukMapper.getListPendudukDaerah(idKelurahan);
+	}
+
+	@Override
+	public PendudukModel getPendudukTermudaDaerah(String idKelurahan) {
+		log.info ("get penduduk termuda pada kel {}", idKelurahan);
+        return sidukMapper.getPendudukTermudaDaerah(idKelurahan);
+	}
+
+	@Override
+	public PendudukModel getPendudukTertuaDaerah(String idKelurahan) {
+		log.info ("get penduduk tertua pada kel {}", idKelurahan);
+        return sidukMapper.getPendudukTertuaDaerah(idKelurahan);
+	}
 }

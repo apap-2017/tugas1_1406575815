@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KotaModel {
-	private int id;
+	private Integer id;
 	private String kode_kota, nama_kota;
 	private List<KecamatanModel> kecamatan;
 }

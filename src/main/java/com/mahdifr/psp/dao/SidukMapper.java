@@ -19,12 +19,6 @@ import com.mahdifr.psp.model.PendudukModel;
 
 @Mapper
 public interface SidukMapper {
-//	@Select("SELECT nik, nama, tempat_lahir, tanggal_lahir, alamat, rt, rw, nama_kelurahan, nama_kecamatan, "
-//			+ "nama_kota, golongan_darah, agama, status_perkawinan, pekerjaan, is_wni, is_wafat FROM penduduk p, keluarga k, kecamatan kec, kelurahan kel, kota kot "
-//			+ "WHERE p.nik=#{nik} AND p.id_keluarga=k.id AND k.id_kelurahan=kel.id AND kel.id_kecamatan=kec.id "
-//			+ "AND kec.id_kota=kot.id")
-//	Map<String, String> selectPenduduk(@Param("nik") String nik);
-	
 	/*
 	 * Bottom -> Up : Penduduk-Kota
 	 * Fitur 1
@@ -214,6 +208,7 @@ public interface SidukMapper {
     		@Result(property="rt", column="rt"),
     		@Result(property="rw", column="rw"),
     		@Result(property="is_tidak_berlaku", column="is_tidak_berlaku"),
+    		@Result(property="id_kelurahan", column="id_kelurahan"),
     		@Result(property="kelurahan", column="id_kelurahan",
     		javaType = KelurahanModel.class,
     		many=@Many(select="selectKelurahan"))
@@ -230,6 +225,9 @@ public interface SidukMapper {
 			+ "rw=#{rw}, id_kelurahan=#{id_kelurahan} WHERE id=#{id}")
 	void updateKeluarga(KeluargaModel keluarga);
 	
+	@Select("SELECT * FROM penduduk WHERE nik=#{nik}")
+	PendudukModel getPenduduk(String nik);
+	
 	/*
 	 * Fitur 7
 	 */
@@ -242,4 +240,19 @@ public interface SidukMapper {
 	
 	@Update("UPDATE keluarga SET is_tidak_berlaku=1 WHERE nomor_kk=#{nkk}")
 	void setTidakBerlaku(@Param("nkk") String nkk);
+	
+	/*
+	 * Fitur 8
+	 */
+	@Select("SELECT p.nik, p.nama, p.jenis_kelamin FROM penduduk p JOIN keluarga k ON p.id_keluarga=k.id "
+			+ "JOIN kelurahan kel ON k.id_kelurahan=kel.id WHERE kel.id=#{idKelurahan}")
+	List<PendudukModel> getListPendudukDaerah(@Param("idKelurahan") String idKelurahan);
+	
+	@Select("SELECT p.nik, p.nama, p.tanggal_lahir FROM penduduk p JOIN keluarga k ON p.id_keluarga=k.id "
+			+ "JOIN kelurahan kel ON k.id_kelurahan=kel.id WHERE kel.id=#{idKelurahan} ORDER BY p.tanggal_lahir DESC LIMIT 1")
+	PendudukModel getPendudukTermudaDaerah(@Param("idKelurahan") String idKelurahan);
+	
+	@Select("SELECT p.nik, p.nama, p.tanggal_lahir FROM penduduk p JOIN keluarga k ON p.id_keluarga=k.id "
+			+ "JOIN kelurahan kel ON k.id_kelurahan=kel.id WHERE kel.id=#{idKelurahan} ORDER BY p.tanggal_lahir ASC LIMIT 1")
+	PendudukModel getPendudukTertuaDaerah(@Param("idKelurahan") String idKelurahan);
 }

@@ -12,18 +12,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PendudukModel {
-	private int id; 
+	private Integer id;
 	private String nik;
 	
 	@NotNull(message = "Tidak Boleh Kosong")
-	private int jenis_kelamin, id_keluarga;
+	private Integer jenis_kelamin, id_keluarga;
 	
 	@NotNull(message = "Tidak Boleh Kosong")
-	@Size(min=1, message = "Tidak Boleh Kosong")
+	@Size(min=1, max=128, message = "Minimum 1 Karakter, Maximum 128 Karakter")
 	private String nama, tempat_lahir, agama, pekerjaan, status_perkawinan, status_dalam_keluarga, golongan_darah;
 	
 	@NotNull(message = "Tidak Boleh Kosong")
-	@Pattern(regexp = "\\d{2}(-|\\/)\\d{2}(-|\\/)\\d{4}", message = "Format dd-MM-yyyy")
+	@Pattern(regexp = "\\d{2}(-)\\d{2}(-)\\d{4}", message = "Format dd-MM-yyyy")
 	private String tanggal_lahir;
 	
 	@NotNull(message = "Tidak Boleh Kosong")

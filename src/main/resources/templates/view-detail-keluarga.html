@@ -2,8 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>View Keluarga by NKK</title>
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
     </head>
     <body>
+	    <nav th:replace="fragments/fragment :: navbar('')"></nav>
     	<h3 th:text="'Lihat Data Keluarga - ' + ${archive.nomor_kk}">Header</h3>
        	<p th:text="'NKK = ' + ${archive.nomor_kk}">NKK Keluarga</p>
        	<p th:text="'Alamat = ' + ${archive.alamat}">Alamat Keluarga</p>
@@ -11,7 +13,7 @@
        	<p th:text="'Kelurahan/Desa = ' + ${archive.kelurahan.nama_kelurahan}">Kelurahan Keluarga</p>
        	<p th:text="'Kecamatan = ' + ${archive.kelurahan.kecamatan.nama_kecamatan}">Kecamatan Keluarga</p>
        	<p th:text="'Kota = ' + ${archive.kelurahan.kecamatan.kota.nama_kota}">Kota Keluarga</p>
-       	
+       	<hr/>
        	<table>
 	       	<th>No.</th>
 	       	<th>Nama</th>

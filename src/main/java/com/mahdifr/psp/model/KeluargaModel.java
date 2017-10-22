@@ -13,12 +13,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KeluargaModel {
-	private int id, id_kelurahan;
+	private Integer id, id_kelurahan;
 	private String nomor_kk;
 	
 	@NotNull(message = "Tidak Boleh Kosong")
-	@Size(min=1, message = "Tidak Boleh Kosong")
-	private String alamat, rt, rw;
+	@Size(min=1, max=128, message = "Minimum 1 Karakter, Maximum 256 Karakter")
+	private String alamat;
+	
+	@NotNull(message = "Tidak Boleh Kosong")
+	@Size(min=1, max=3, message = "Minimum 1 Karakter, Maximum 3 Karakter")
+	private String rt, rw;
 	
 	@NotNull(message = "Tidak Boleh Kosong")
 	private boolean is_tidak_berlaku;
